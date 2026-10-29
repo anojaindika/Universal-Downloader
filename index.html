@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="A modern all-platform video downloader UI by MR.THARU BOY. Supports YouTube, Facebook, TikTok, Instagram, X/Twitter and more through a configurable backend API."
+  />
+  <meta name="theme-color" content="#0b1020" />
+  <title>All-Platform Video Downloader | MR.THARU BOY</title>
+
+  <script>
+    tailwind = { config: { darkMode: 'class' } };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="min-h-screen text-slate-900 dark:text-slate-100 selection:bg-violet-500/30">
+  <div class="fixed inset-0 -z-20 bg-slate-50 dark:bg-[#070b14]"></div>
+  <div class="ambient-bg fixed inset-0 -z-10"></div>
+
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-white/65 backdrop-blur-xl dark:bg-slate-950/65">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <a href="#home" class="flex items-center gap-3">
+        <span class="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-400 shadow-lg shadow-violet-500/20">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 fill-white" aria-hidden="true">
+            <path d="M8 5v14l11-7z"></path>
+          </svg>
+        </span>
+        <span>
+          <strong class="block text-sm sm:text-base">Universal Downloader</strong>
+          <span class="block text-[11px] text-slate-500 dark:text-slate-400">Fast • Clean • Responsive</span>
+        </span>
+      </a>
+
+      <div class="flex items-center gap-2">
+        <a href="#how" class="hidden rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-900/5 dark:hover:bg-white/5 sm:inline-flex">How it works</a>
+        <a href="#faq" class="hidden rounded-xl px-3 py-2 text-sm font-medium hover:bg-slate-900/5 dark:hover:bg-white/5 sm:inline-flex">FAQ</a>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle theme">
+          <svg id="sunIcon" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg id="moonIcon" viewBox="0 0 24 24" class="hidden h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home">
+    <section class="mx-auto max-w-7xl px-4 pb-16 pt-14 sm:px-6 sm:pt-20 lg:px-8">
+      <div class="mx-auto max-w-4xl text-center">
+        <div class="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-2 text-xs font-semibold text-violet-700 dark:text-violet-300">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span>
+          YouTube • Facebook • TikTok • Instagram • X / Twitter
+        </div>
+
+        <h1 class="text-balance text-4xl font-extrabold tracking-tight sm:text-6xl">
+          Download videos from
+          <span class="gradient-text">your favorite platforms</span>
+        </h1>
+
+        <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg">
+          Paste a supported video URL, preview the media, and choose the format and quality you need.
+          This demo UI is ready to connect to your own authorized downloader backend.
+        </p>
+
+        <form id="downloadForm" class="glass-card mx-auto mt-9 max-w-3xl p-3 sm:p-4">
+          <label for="videoUrl" class="sr-only">Video URL</label>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <div class="relative flex-1">
+              <svg viewBox="0 0 24 24" class="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+              </svg>
+              <input
+                id="videoUrl"
+                type="url"
+                inputmode="url"
+                autocomplete="url"
+                placeholder="Paste video link here..."
+                class="url-input"
+                required
+              />
+            </div>
+
+            <button id="pasteBtn" type="button" class="secondary-btn">
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Paste
+            </button>
+
+            <button id="analyzeBtn" type="submit" class="primary-btn">
+              <span class="button-text">Download</span>
+              <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 3v12"></path>
+                <path d="m7 10 5 5 5-5"></path>
+                <path d="M5 21h14"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center justify-between gap-2 px-1 text-xs text-slate-500 dark:text-slate-400">
+            <span id="platformHint">Supported: YouTube, Facebook, TikTok, Instagram, X/Twitter</span>
+            <span>Use only media you have permission to download.</span>
+          </div>
+        </form>
+
+        <div id="alertContainer" class="mx-auto mt-5 max-w-3xl" aria-live="polite"></div>
+      </div>
+
+      <div id="loaderSection" class="mx-auto mt-8 hidden max-w-3xl">
+        <div class="glass-card p-6">
+          <div class="mb-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="spinner"></span>
+              <div>
+                <p class="font-semibold">Analyzing media...</p>
+                <p id="loaderText" class="text-sm text-slate-500 dark:text-slate-400">Checking the URL</p>
+              </div>
+            </div>
+            <span id="progressLabel" class="text-sm font-semibold">0%</span>
+          </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div id="progressBar" class="h-full w-0 rounded-full bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-300"></div>
+          </div>
+        </div>
+      </div>
+
+      <section id="resultsSection" class="mx-auto mt-8 hidden max-w-5xl">
+        <div class="glass-card overflow-hidden">
+          <div class="grid gap-0 lg:grid-cols-[1.05fr_.95fr]">
+            <div class="relative min-h-[260px] bg-slate-900">
+              <img id="videoThumbnail" class="h-full min-h-[260px] w-full object-cover" alt="Video thumbnail" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+              <span id="videoDuration" class="absolute bottom-4 right-4 rounded-lg bg-black/70 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur">00:00</span>
+              <span id="platformBadge" class="absolute left-4 top-4 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">Platform</span>
+            </div>
+
+            <div class="p-5 sm:p-7">
+              <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-500">Media found</p>
+              <h2 id="videoTitle" class="line-clamp-2 text-xl font-bold sm:text-2xl">Video title</h2>
+              <p id="videoMeta" class="mt-2 text-sm text-slate-500 dark:text-slate-400">Ready to download</p>
+
+              <div class="mt-6 flex rounded-2xl bg-slate-100 p-1 dark:bg-slate-900">
+                <button class="tab-btn active" data-tab="video" type="button">Video</button>
+                <button class="tab-btn" data-tab="audio" type="button">Audio</button>
+              </div>
+
+              <div id="videoTab" class="tab-panel mt-5">
+                <div id="videoOptions" class="space-y-3"></div>
+              </div>
+
+              <div id="audioTab" class="tab-panel mt-5 hidden">
+                <div id="audioOptions" class="space-y-3"></div>
+              </div>
+
+              <p class="mt-5 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                Available formats depend on the connected backend and the original media. Some platforms may restrict downloading under their terms.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Fast workflow</h3>
+          <p>Paste, analyze, choose quality, and download with a streamlined interface.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🎬</div>
+          <h3>Multiple formats</h3>
+          <p>Expose MP4 qualities and MP3 audio options returned by your backend.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>Responsive</h3>
+          <p>Designed for phones, tablets, laptops, and large desktop displays.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">🌓</div>
+          <h3>Dark / light mode</h3>
+          <p>Automatic theme preference with a manual toggle saved locally.</p>
+        </article>
+      </section>
+    </section>
+
+    <section id="how" class="border-y border-slate-200/70 bg-white/40 py-16 dark:border-white/10 dark:bg-white/[0.02]">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <p class="section-kicker">How to use</p>
+          <h2 class="section-title">Three simple steps</h2>
+        </div>
+
+        <div class="mt-10 grid gap-5 md:grid-cols-3">
+          <article class="step-card">
+            <span>01</span>
+            <h3>Copy a video URL</h3>
+            <p>Copy a link from a supported platform for content you are allowed to download.</p>
+          </article>
+          <article class="step-card">
+            <span>02</span>
+            <h3>Paste and analyze</h3>
+            <p>Paste the URL above. The frontend validates it and requests metadata from your API.</p>
+          </article>
+          <article class="step-card">
+            <span>03</span>
+            <h3>Choose a format</h3>
+            <p>Select an available video resolution or an audio format returned by the backend.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <p class="section-kicker">FAQ</p>
+        <h2 class="section-title">Frequently asked questions</h2>
+      </div>
+
+      <div class="mt-9 space-y-3">
+        <details class="faq-item" open>
+          <summary>Does this frontend download real videos by itself?</summary>
+          <p>No. Browsers cannot reliably process every platform directly. This project includes a polished mock/demo flow and an API integration layer. Connect it to your own authorized backend service.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Which platforms are supported?</summary>
+          <p>The UI validates common YouTube, Facebook, TikTok, Instagram, and X/Twitter links. Your actual backend determines which platforms and formats are available.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I add more resolutions or formats?</summary>
+          <p>Yes. The options are rendered dynamically from the API response, so your backend can return 4K, 1440p, WebM, AAC, M4A, or other formats if permitted.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is it okay to download any online video?</summary>
+          <p>Download only content you own, have permission to use, or that is otherwise legally downloadable. Also follow the relevant platform terms and local law.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200/80 bg-white/60 dark:border-white/10 dark:bg-black/20">
+    <div class="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:px-8">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-violet-500 to-cyan-400 text-white shadow-lg">▶</span>
+          <div>
+            <h3 class="font-bold">All-Platform Video Downloader</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Created by MR.THARU BOY</p>
+          </div>
+        </div>
+        <p class="mt-4 max-w-md text-sm leading-6 text-slate-500 dark:text-slate-400">
+          A modern responsive downloader interface designed for connection to a lawful, authorized media-processing backend.
+        </p>
+      </div>
+
+      <div class="md:text-right">
+        <h3 class="font-semibold">Developer Contact</h3>
+        <div class="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+          <p><strong>Name:</strong> MR.THARU BOY</p>
+          <p>
+            <strong>WhatsApp:</strong>
+            <a class="footer-link" href="https://wa.me/94773089283" target="_blank" rel="noopener noreferrer">+94 77 308 9283</a>
+          </p>
+          <p>
+            <strong>Email:</strong>
+            <a class="footer-link" href="mailto:tharuboy419@gmail.com">tharuboy419@gmail.com</a>
+          </p>
+        </div>
+
+        <div class="mt-5 flex gap-2 md:justify-end">
+          <a class="social-btn" href="https://wa.me/94773089283" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
+          <a class="social-btn" href="mailto:tharuboy419@gmail.com" aria-label="Email">@</a>
+          <a class="social-btn" href="#" aria-label="Facebook">f</a>
+          <a class="social-btn" href="#" aria-label="Instagram">◎</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-slate-200/80 px-4 py-5 text-center text-xs text-slate-500 dark:border-white/10 dark:text-slate-500">
+      © <span id="currentYear"></span> MR.THARU BOY. Use responsibly and respect content rights.
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
