@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Media Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased selection:bg-blue-500 selection:text-white flex flex-col justify-between">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-800/80 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-cloud-arrow-down text-white text-lg"></i>
+                </div>
+                <span class="font-bold text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                    Universal Downloader
+                </span>
+            </div>
+            
+            <!-- Direct Mode Badge -->
+            <div class="text-xs flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Built-in Scraper Active</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-grow">
+        
+        <!-- Hero Section -->
+        <div class="text-center mb-10">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium mb-4">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                Facebook Video Downloader Active
+            </div>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+                Download Videos <span class="text-blue-500">Effortlessly</span>
+            </h1>
+            <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base">
+                Paste your Facebook video link below to fetch high-definition (HD) and standard-definition (SD) download links instantly.
+            </p>
+        </div>
+
+        <!-- Platform Selector Pills -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5 mb-8">
+            <!-- Active Platform: Facebook -->
+            <button type="button" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 text-white font-medium text-sm shadow-lg shadow-blue-600/25 ring-2 ring-blue-400/50 transition cursor-pointer">
+                <i class="fa-brands fa-facebook text-base"></i>
+                <span>Facebook</span>
+                <span class="ml-1 text-[10px] uppercase tracking-wider bg-white/20 px-1.5 py-0.5 rounded font-semibold">Live</span>
+            </button>
+
+            <!-- Coming Soon Platforms -->
+            <button type="button" onclick="notifyComingSoon('YouTube')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/60 hover:bg-slate-800 text-sm transition cursor-not-allowed opacity-75">
+                <i class="fa-brands fa-youtube text-red-500/70"></i>
+                <span>YouTube</span>
+                <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded">Soon</span>
+            </button>
+
+            <button type="button" onclick="notifyComingSoon('Instagram')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/60 hover:bg-slate-800 text-sm transition cursor-not-allowed opacity-75">
+                <i class="fa-brands fa-instagram text-pink-500/70"></i>
+                <span>Instagram</span>
+                <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded">Soon</span>
+            </button>
+
+            <button type="button" onclick="notifyComingSoon('TikTok')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/60 hover:bg-slate-800 text-sm transition cursor-not-allowed opacity-75">
+                <i class="fa-brands fa-tiktok text-slate-300/70"></i>
+                <span>TikTok</span>
+                <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded">Soon</span>
+            </button>
+
+            <button type="button" onclick="notifyComingSoon('X / Twitter')" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800/60 text-slate-400 border border-slate-700/60 hover:bg-slate-800 text-sm transition cursor-not-allowed opacity-75">
+                <i class="fa-brands fa-x-twitter text-slate-300/70"></i>
+                <span>X / Twitter</span>
+                <span class="text-[10px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded">Soon</span>
+            </button>
+        </div>
+
+        <!-- Downloader Input Card -->
+        <div class="glass-card rounded-2xl p-6 sm:p-8 shadow-2xl mb-8">
+            <form id="downloadForm" class="flex flex-col sm:flex-row gap-3">
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fa-brands fa-facebook text-blue-500 text-lg"></i>
+                    </div>
+                    <input 
+                        type="url" 
+                        id="videoUrl" 
+                        required
+                        placeholder="Paste Facebook video URL here (e.g., https://www.facebook.com/watch/?v=...)" 
+                        class="w-full pl-11 pr-20 py-3.5 bg-slate-900/90 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition text-sm sm:text-base"
+                    >
+                    <button 
+                        type="button" 
+                        onclick="pasteFromClipboard()"
+                        class="absolute inset-y-1.5 right-1.5 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium rounded-lg border border-slate-700 transition flex items-center gap-1"
+                        title="Paste from clipboard"
+                    >
+                        <i class="fa-regular fa-paste"></i> Paste
+                    </button>
+                </div>
+                <button 
+                    type="submit" 
+                    id="submitBtn"
+                    class="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition flex items-center justify-center gap-2 sm:w-auto w-full"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download</span>
+                </button>
+            </form>
+
+            <!-- Status / Notification Toast Banner inside card -->
+            <div id="statusMessage" class="hidden mt-4 p-3.5 rounded-xl text-sm flex items-center gap-3"></div>
+        </div>
+
+        <!-- Result Display Card (Hidden by default) -->
+        <div id="resultCard" class="hidden glass-card rounded-2xl p-6 shadow-2xl border border-blue-500/20 transition-all duration-300">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <!-- Thumbnail -->
+                <div class="w-full md:w-64 aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-700/80 relative flex-shrink-0">
+                    <img id="resultThumbnail" src="" alt="Video Thumbnail" class="w-full h-full object-cover">
+                    <div class="absolute bottom-2 right-2 bg-black/75 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-0.5 rounded">
+                        FACEBOOK VIDEO
+                    </div>
+                </div>
+
+                <!-- Details & Download Buttons -->
+                <div class="flex-grow w-full text-center md:text-left">
+                    <h3 id="resultTitle" class="text-lg font-bold text-white line-clamp-2 mb-4">
+                        Facebook Video
+                    </h3>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <a id="downloadHdBtn" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-high-definition"></i>
+                            <span>Download HD</span>
+                        </a>
+                        <a id="downloadSdBtn" href="#" target="_blank" rel="noopener noreferrer" class="flex-1 py-3 px-4 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-semibold rounded-xl transition flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-solid fa-download"></i>
+                            <span>Download SD</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Supported & Upcoming Platforms Grid -->
+        <div class="mt-14">
+            <h2 class="text-center text-xs font-semibold uppercase tracking-widest text-slate-500 mb-6">
+                Supported & Upcoming Platforms
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <!-- Facebook Active -->
+                <div class="glass-card p-4 rounded-xl border-blue-500/30 flex flex-col items-center text-center relative overflow-hidden">
+                    <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-xl mb-2">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm text-white">Facebook</h4>
+                    <p class="text-xs text-emerald-400 mt-0.5">Available Now</p>
+                </div>
+
+                <!-- YouTube Coming Soon -->
+                <div class="glass-card p-4 rounded-xl opacity-60 flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 text-xl mb-2">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm text-slate-300">YouTube</h4>
+                    <span class="mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Coming Soon</span>
+                </div>
+
+                <!-- Instagram Coming Soon -->
+                <div class="glass-card p-4 rounded-xl opacity-60 flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-500 text-xl mb-2">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm text-slate-300">Instagram</h4>
+                    <span class="mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Coming Soon</span>
+                </div>
+
+                <!-- TikTok Coming Soon -->
+                <div class="glass-card p-4 rounded-xl opacity-60 flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-full bg-slate-500/10 flex items-center justify-center text-slate-300 text-xl mb-2">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm text-slate-300">TikTok</h4>
+                    <span class="mt-1 text-[10px] font-medium px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+        <p>Universal Media Downloader &copy; 2026. Facebook module active; other platforms coming soon.</p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('downloadForm');
+        const urlInput = document.getElementById('videoUrl');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultCard = document.getElementById('resultCard');
+
+        // Notify user when clicking coming soon platforms
+        function notifyComingSoon(platform) {
+            showStatus(`${platform} downloader is currently in development and coming soon! Only Facebook is supported right now.`, 'info');
+        }
+
+        // Paste from clipboard helper (using fallback for iframe compatibility)
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                urlInput.value = text;
+            } catch (err) {
+                urlInput.focus();
+                showStatus('Please press Ctrl+V (or long-press and Paste) inside the box.', 'info');
+            }
+        }
+
+        // Helper to show status banners
+        function showStatus(message, type = 'info') {
+// ... existing code ... -->
+        // Validate Facebook URL
+        function isFacebookUrl(url) {
+            return /^(https?:\/\/)?(www\.|m\.|web\.)?(facebook\.com|fb\.watch|fb\.com)\/.+/i.test(url);
+        }
+
+        // Built-in Frontend Scraper (Replaces Node.js Axios + Cheerio)
+        async function fetchFacebookVideoDirect(videoUrl) {
+            const targetUrl = "https://fget.io/process";
+            const formBody = new URLSearchParams({
+                id: videoUrl,
+                locale: "en"
+            }).toString();
+
+            const headers = {
+                "HX-Request": "true",
+                "HX-Trigger": "form",
+                "HX-Target": "target",
+                "Content-Type": "application/x-www-form-urlencoded"
+            };
+
+            // Browser CORS bypass proxies (tries direct/proxy fallbacks automatically)
+            const endpoints = [
+                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
+            ];
+
+            let htmlResponse = null;
+            let lastError = null;
+
+            for (const proxyUrl of endpoints) {
+                try {
+                    const response = await fetch(proxyUrl, {
+                        method: "POST",
+                        headers: headers,
+                        body: formBody
+                    });
+
+                    if (response.ok) {
+                        htmlResponse = await response.text();
+                        if (htmlResponse && htmlResponse.includes("download-result")) {
+                            break;
+                        }
+                    }
+                } catch (err) {
+                    lastError = err;
+                }
+            }
+
+            if (!htmlResponse) {
+                throw lastError || new Error("Unable to reach the video extraction server.");
+            }
+
+            // Parse HTML natively in the browser (equivalent to cheerio.load)
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlResponse, "text/html");
+
+            const titleEl = doc.querySelector(".result-title");
+            const title = titleEl ? titleEl.textContent.trim() : "Facebook Video";
+
+            const thumbEl = doc.querySelector(".result-thumbnail img");
+            const thumbnail = thumbEl ? thumbEl.getAttribute("src") : null;
+
+            const hdEl = doc.querySelector("a.download-result.hd");
+            const hd = hdEl ? hdEl.getAttribute("href") : null;
+
+            const sdEl = doc.querySelector("a.download-result");
+            const sd = sdEl ? sdEl.getAttribute("href") : null;
+
+            return { title, thumbnail, hd, sd };
+        }
+
+        // Handle Form Submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const videoUrl = urlInput.value.trim();
+
+            if (!videoUrl) return;
+
+            if (!isFacebookUrl(videoUrl)) {
+                showStatus('Please enter a valid Facebook video link. Other platforms are coming soon!', 'error');
+                return;
+            }
+
+            // Set Loading State
+            resultCard.classList.add('hidden');
+            statusMessage.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<div class="loader"></div> <span>Fetching...</span>`;
+
+            try {
+                // Execute built-in scraper directly inside the browser
+                const { title, thumbnail, hd, sd } = await fetchFacebookVideoDirect(videoUrl);
+
+                if (!hd && !sd) {
+                    throw new Error('No downloadable video streams found. Ensure the Facebook video is Public.');
+                }
+
+                // Populate UI
+                document.getElementById('resultTitle').textContent = title;
+                document.getElementById('resultThumbnail').src = thumbnail || 'https://placehold.co/600x400/1e293b/94a3b8?text=Facebook+Video';
+
+                const hdBtn = document.getElementById('downloadHdBtn');
+                const sdBtn = document.getElementById('downloadSdBtn');
+
+                if (hd) {
+                    hdBtn.href = hd;
+                    hdBtn.classList.remove('hidden');
+                } else {
+                    hdBtn.classList.add('hidden');
+                }
+
+                if (sd) {
+                    sdBtn.href = sd;
+                    sdBtn.classList.remove('hidden');
+                } else {
+                    sdBtn.classList.add('hidden');
+                }
+
+                resultCard.classList.remove('hidden');
+                showStatus('Video fetched successfully! Choose your preferred quality below.', 'success');
+
+            } catch (error) {
+                console.error('Download error:', error);
+                showStatus(`Failed to fetch video: ${error.message}`, 'error');
+            } finally {
+                // Reset Button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<i class="fa-solid fa-download"></i> <span>Download</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
